@@ -21,33 +21,38 @@ class Matrix {
 		void turnOff();
 		void turnOnAll();
 		void turnOffAll();
-		void downHorizontal(int count, int time);
-		void upHorizontal(int count, int time);
-		void downLeft(int count, int time);
-		void upRight(int count, int time);
-		void upLeft(int count, int time);
-		void downRight(int count, int time);
-		void snakeDown(int count, int time);
-		void snakeUp(int count, int time);
-		void randomOne(int count, int time);
-		void randomTwo(int count, int time);
-		void randomThree(int count, int time);
-		void blinkRed(int count, int time);
-		void blinkWhite(int count, int time);
-		void rowDown(int count, int time);
-		void rowUp(int count, int time);
-		void blinkSingleWhiteDown(int count, int time);
-		void blinkSingleRedDown(int count, int time);
-		void blinkSingleWhiteUp(int count, int time);
-		void blinkSingleRedUp(int count, int time);
-		void turnOnAllButOne(int count, int time);
-		void turnOnAllButTwo(int count, int time);
+		void downHorizontal(int maxCount, int time);
+		void upHorizontal(int maxCount, int time);
+		void downLeft(int maxCount, int time);
+		void upRight(int maxCount, int time);
+		void upLeft(int maxCount, int time);
+		void downRight(int maxCount, int time);
+		void snakeDown(int maxCount, int time);
+		void snakeUp(int maxCount, int time);
+		void randomOne(int maxCount, int time);
+		void randomTwo(int maxCount, int time);
+		void randomThree(int maxCount, int time);
+		void blinkRed(int maxCount, int time);
+		void blinkWhite(int maxCount, int time);
+		void rowDown(int maxCount, int time);
+		void rowUp(int maxCount, int time);
+		void blinkSingleWhiteDown(int maxCount, int time);
+		void blinkSingleRedDown(int maxCount, int time);
+		void blinkSingleWhiteUp(int maxCount, int time);
+		void blinkSingleRedUp(int maxCount, int time);
+		void turnOnAllButOne(int maxCount, int time);
+		void turnOnAllButTwo(int maxCount, int time);
+		void test(int maxCount, int time);
+		void test_downHorizontal(int maxCount, int time);
 				
 	// private interface
 	private:
 	
 		int _bankFloat;
-		int _bankState;
+		int _bankCount;
+		int _ledState;
+		int _cycleState;	// boolean to determine if the ON OFF cycle is complete
+		int _subState; 		// working integer for the boolean determination
 		int _bank01;
 		int _bank02;
 		int _bank03;
@@ -56,6 +61,12 @@ class Matrix {
 		int _bank06;
 		int _bank07;
 		int _bank08;
+		unsigned long _previousMillis;        
+		unsigned long _currentMillis;
+		long _onTime;
+		long _offTime;
+		long _dwell;
+	
 		
 };
 

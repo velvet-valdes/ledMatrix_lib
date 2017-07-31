@@ -80,34 +80,35 @@ void Matrix::turnOffAll()
 	
 }
 
-void Matrix::downHorizontal(int count, int time)
+void Matrix::downHorizontal(int maxCount, int time)
 
 {
 
-	_bankState = 0;
+	_bankCount = 0;		
 
-	for (_bankState; _bankState < count; _bankState++) {
 	
-		_bankFloat = 1;
+	for (_bankCount; _bankCount < maxCount; _bankCount++) {
+	
+		_bankFloat = 1;	// this variable is the bank we are turning on and off.  place your on off code inside the curly brackets
 	
 		for (_bankFloat; _bankFloat < 9 && _bankFloat >= 1; _bankFloat++) {
-    
+			
 			digitalWrite(_bankFloat, HIGH);
 			delay(time);
 			digitalWrite(_bankFloat, LOW);
 			delay(time);
-
+	 	
 		}  
 	}      
 }
 
-void Matrix::upHorizontal(int count, int time)
+void Matrix::upHorizontal(int maxCount, int time)
 
 {
 	
-	_bankState =0;
+	_bankCount =0;
 
-	for (_bankState; _bankState < count; _bankState++) {
+	for (_bankCount; _bankCount < maxCount; _bankCount++) {
 	
 		_bankFloat = 9;
 	
@@ -124,13 +125,13 @@ void Matrix::upHorizontal(int count, int time)
 
 
     
-void Matrix::downLeft(int count, int time)
+void Matrix::downLeft(int maxCount, int time)
 
 {
 
-	_bankState = 0;
+	_bankCount = 0;
 
-	for (_bankState; _bankState < count; _bankState++) {
+	for (_bankCount; _bankCount < maxCount; _bankCount++) {
 
 		_bankFloat = 1;
 
@@ -148,13 +149,13 @@ void Matrix::downLeft(int count, int time)
 	}
 }
 
-void Matrix::upRight(int count, int time)
+void Matrix::upRight(int maxCount, int time)
 
 {
 
-	_bankState = 0;
+	_bankCount = 0;
 
-	for (_bankState; _bankState < count; _bankState++) {
+	for (_bankCount; _bankCount < maxCount; _bankCount++) {
 	    
 		_bankFloat = 9;
 	    
@@ -173,13 +174,13 @@ void Matrix::upRight(int count, int time)
 }
 
 
-void Matrix::upLeft(int count, int time)
+void Matrix::upLeft(int maxCount, int time)
 
 {
 
-	_bankState = 0;
+	_bankCount = 0;
 
-	for (_bankState; _bankState < count; _bankState++) {
+	for (_bankCount; _bankCount < maxCount; _bankCount++) {
 
 		_bankFloat = 9;
 	
@@ -197,13 +198,13 @@ void Matrix::upLeft(int count, int time)
 	}
 }
 
-void Matrix::downRight(int count, int time)
+void Matrix::downRight(int maxCount, int time)
 
 {
 	
-	_bankState = 0;
+	_bankCount = 0;
 
-	for (_bankState; _bankState < count; _bankState++) {
+	for (_bankCount; _bankCount < maxCount; _bankCount++) {
 
 		_bankFloat = 2;
 		
@@ -223,13 +224,13 @@ void Matrix::downRight(int count, int time)
 
 
 
-void Matrix::snakeDown(int count, int time)
+void Matrix::snakeDown(int maxCount, int time)
 
 {
 
-	_bankState = 0;
+	_bankCount = 0;
 
-	for (_bankState; _bankState < count; _bankState++) {
+	for (_bankCount; _bankCount < maxCount; _bankCount++) {
 
 		_bankFloat = 1;
 	
@@ -247,13 +248,13 @@ void Matrix::snakeDown(int count, int time)
 	}
 }
 
-void Matrix::snakeUp(int count, int time)
+void Matrix::snakeUp(int maxCount, int time)
 
 {
 	
-	_bankState = 0;
+	_bankCount = 0;
 	
-	for (_bankState; _bankState < count; _bankState++) {
+	for (_bankCount; _bankCount < maxCount; _bankCount++) {
 	
 		_bankFloat = 9;
 	
@@ -271,13 +272,13 @@ void Matrix::snakeUp(int count, int time)
 	}   
 }
 
-void Matrix::randomOne(int count, int time)
+void Matrix::randomOne(int maxCount, int time)
 
 {
 
-	_bankState = 0;
+	_bankCount = 0;
 	
-	for (_bankState; _bankState < count; _bankState++) {
+	for (_bankCount; _bankCount < maxCount; _bankCount++) {
 	
 		_bankFloat = random(2,9);
 		digitalWrite(_bankFloat, HIGH);
@@ -288,13 +289,13 @@ void Matrix::randomOne(int count, int time)
 	}	
 }	
 
-void Matrix::randomTwo(int count, int time)
+void Matrix::randomTwo(int maxCount, int time)
 
 {
 
-	_bankState = 0;
+	_bankCount = 0;
 	
-	for ( _bankState; _bankState < count; _bankState++) {
+	for ( _bankCount; _bankCount < maxCount; _bankCount++) {
 	 
 		_bankFloat = random(2,9);
 		digitalWrite(_bankFloat, HIGH);
@@ -306,13 +307,13 @@ void Matrix::randomTwo(int count, int time)
 	}
 }	
 
-void Matrix::randomThree(int count, int time)
+void Matrix::randomThree(int maxCount, int time)
 
 {
 
-	_bankState = 0;
+	_bankCount = 0;
 	
-	for ( _bankState; _bankState < count; _bankState++) {
+	for ( _bankCount; _bankCount < maxCount; _bankCount++) {
 	 
 		_bankFloat = random(2,9);
 		digitalWrite(_bankFloat, HIGH);
@@ -324,11 +325,11 @@ void Matrix::randomThree(int count, int time)
 	}
 }
 
-void Matrix::blinkRed(int count, int time) {
+void Matrix::blinkRed(int maxCount, int time) {
 
-	_bankState = 0;
+	_bankCount = 0;
 
-	for (_bankState; _bankState < count; _bankState++) {
+	for (_bankCount; _bankCount < maxCount; _bankCount++) {
 
 	digitalWrite(_bank01, LOW);
 	digitalWrite(_bank02, HIGH);
@@ -352,11 +353,11 @@ void Matrix::blinkRed(int count, int time) {
 	}	
 }
 
-void Matrix::blinkWhite(int count, int time) {
+void Matrix::blinkWhite(int maxCount, int time) {
 
-	_bankState = 0;
+	_bankCount = 0;
 
-	for (_bankState; _bankState < count; _bankState++) {
+	for (_bankCount; _bankCount < maxCount; _bankCount++) {
 
     	digitalWrite(_bank01, HIGH);
     	digitalWrite(_bank02, LOW);
@@ -380,11 +381,11 @@ void Matrix::blinkWhite(int count, int time) {
 	}	
 }
 
-void Matrix::rowDown(int count, int time) {
+void Matrix::rowDown(int maxCount, int time) {
 
-	_bankState = 0;
+	_bankCount = 0;
 
-	for (_bankState; _bankState < count; _bankState++) {
+	for (_bankCount; _bankCount < maxCount; _bankCount++) {
 
 		digitalWrite(_bank01, HIGH);
 		digitalWrite(_bank02, HIGH);
@@ -428,11 +429,11 @@ void Matrix::rowDown(int count, int time) {
 	}
 }
 
-void Matrix::rowUp(int count, int time) {
+void Matrix::rowUp(int maxCount, int time) {
 
-	_bankState = 0;
+	_bankCount = 0;
 
-	for (_bankState; _bankState < count; _bankState++) {
+	for (_bankCount; _bankCount < maxCount; _bankCount++) {
 
 		digitalWrite(_bank01, LOW);
 		digitalWrite(_bank02, LOW);
@@ -476,11 +477,11 @@ void Matrix::rowUp(int count, int time) {
 	}
 }
 
-void Matrix::blinkSingleWhiteDown(int count, int time) {
+void Matrix::blinkSingleWhiteDown(int maxCount, int time) {
 
-	_bankState = 0;
+	_bankCount = 0;
 
-	for (_bankState; _bankState < count; _bankState++) {
+	for (_bankCount; _bankCount < maxCount; _bankCount++) {
 
 		digitalWrite(_bank01, HIGH);
 		delay(time);
@@ -502,11 +503,11 @@ void Matrix::blinkSingleWhiteDown(int count, int time) {
 	}
 }
 
-void Matrix::blinkSingleRedDown(int count, int time) {
+void Matrix::blinkSingleRedDown(int maxCount, int time) {
 
-	_bankState = 0;
+	_bankCount = 0;
 
-	for (_bankState; _bankState < count; _bankState++) {
+	for (_bankCount; _bankCount < maxCount; _bankCount++) {
 
 		digitalWrite(_bank02, HIGH);
 		delay(time);
@@ -528,11 +529,11 @@ void Matrix::blinkSingleRedDown(int count, int time) {
 	}
 }
 
-void Matrix::blinkSingleWhiteUp(int count, int time) {
+void Matrix::blinkSingleWhiteUp(int maxCount, int time) {
 
-	_bankState = 0;
+	_bankCount = 0;
 
-	for (_bankState; _bankState < count; _bankState++) {
+	for (_bankCount; _bankCount < maxCount; _bankCount++) {
 
 		digitalWrite(_bank08, HIGH);
 		delay(time);
@@ -554,11 +555,11 @@ void Matrix::blinkSingleWhiteUp(int count, int time) {
 	}
 }
 
-void Matrix::blinkSingleRedUp(int count, int time) {
+void Matrix::blinkSingleRedUp(int maxCount, int time) {
 
-	_bankState = 0;
+	_bankCount = 0;
 
-	for (_bankState; _bankState < count; _bankState++) {
+	for (_bankCount; _bankCount < maxCount; _bankCount++) {
 
 		digitalWrite(_bank07, HIGH);
 		delay(time);
@@ -580,13 +581,13 @@ void Matrix::blinkSingleRedUp(int count, int time) {
 	}
 }
 
-void Matrix::turnOnAllButTwo(int count, int time)
+void Matrix::turnOnAllButTwo(int maxCount, int time)
 
 {
 
-	_bankState = 0;
+	_bankCount = 0;
 
-	for (_bankState; _bankState < count; _bankState) {
+	for (_bankCount; _bankCount < maxCount; _bankCount) {
 
 		digitalWrite(_bank01, HIGH);
 		digitalWrite(_bank02, HIGH);
@@ -602,4 +603,95 @@ void Matrix::turnOnAllButTwo(int count, int time)
 	
 	}
 }
+
+//////  TESTING
+
+void Matrix::test_downHorizontal(int maxCount, int time)
+
+{
+
+	_bankCount = 0;
+	_onTime = time;
+	_offTime = time;
+	
+	// read the current time value and store it for comparison
+	_currentMillis = millis();
+
+	// Serial Monitor
+	// Serial.print ("Cycle State: ");
+	// Serial.println(_cycleState);
+
+	// Here we are checking to see if the cycle has completed.  If it has we increment the variable we intend to digitalWrite(); to.  When we have completed that we reset the cycle variable to incomplete.
+	if (_cycleState == 1) {
+
+		_bankFloat++;
+		_cycleState = 0;
+		
+	}
+
+	// Keep  bank value we digitalWrite(); to in bounds
+	if ((_bankFloat > 9) || (_bankFloat < 2)) {
+	
+		 _bankFloat = 2; 
+		 
+	}
+
+	// Serial Monitor
+	// Serial.print ("Bank: ");
+	// Serial.println(_bankFloat);
+ 
+	if((_ledState == HIGH) && (_currentMillis - _previousMillis >= _onTime)) {
+	
+		_ledState = LOW;  						// Turn the LED bank off
+		_previousMillis = _currentMillis;  		// Remember the time
+		digitalWrite(_bankFloat, _ledState);  	// Update the actual LED bank with the state
+		_subState++; 							// increment the variable that tells us when the cycle is complete
+	
+	}
+	
+	else if ((_ledState == LOW) && (_currentMillis - _previousMillis >= _offTime)) {
+	
+		_ledState = HIGH;  						// Turn the LED bank on
+		_previousMillis = _currentMillis;   	// Remember the time
+		digitalWrite(_bankFloat, _ledState);    // Update the actual LED bank with the state
+		_subState++;							// increment the variable that tells us when the cycle is complete
+		
+	}
+
+	// Here we are a variable to track if the cycle is complete.  Each subcomponent of the cycle increments the variable.  We are testing if the cycle is done with an integer.
+	if (_subState >= 2) { 
+	
+		_subState = 0; _cycleState = 1; 
+	
+	}
+}
+
+void Matrix::test(int maxCount, int time)
+
+{
+
+	_bankCount = 0;
+	_bankFloat = 2;
+	_onTime = time;
+	_offTime = time;
+	
+	// check to see if it's time to change the state of the LED
+	_currentMillis = millis();
+ 
+	if((_ledState == HIGH) && (_currentMillis - _previousMillis >= _onTime)) {
+	
+			_ledState = LOW;  // Turn it off
+			_previousMillis = _currentMillis;  // Remember the time
+			digitalWrite(_bankFloat, _ledState);  // Update the actual LED
+	}
+	else if ((_ledState == LOW) && (_currentMillis - _previousMillis >= _offTime)) {
+	
+			_ledState = HIGH;  // turn it on
+			_previousMillis = _currentMillis;   // Remember the time
+			digitalWrite(_bankFloat, _ledState);    // Update the actual LED
+	}
+}
+
+
+
 
