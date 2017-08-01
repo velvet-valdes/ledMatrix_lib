@@ -77,6 +77,7 @@ void Matrix::turnOffAll()
 	digitalWrite(_bank06, LOW);
 	digitalWrite(_bank07, LOW);
 	digitalWrite(_bank08, LOW);
+	_bankCount = 0;
 	
 }
 
@@ -609,89 +610,100 @@ void Matrix::turnOnAllButTwo(int maxCount, int time)
 void Matrix::test_downHorizontal(int maxCount, int time)
 
 {
+	_bankFloat = 2;
+	
+	do {	
+	
+		// read the current time value and store it for comparison
+		_currentMillis = millis();
 
+		// Here we are checking to see if the ON OFF cycle has completed.  If it has we increment the variable we intend to digitalWrite(); to.  When we have completed that we reset the cycle variable to incomplete.
+		if (_cycleState == 1) {
+
+			_bankFloat++;
+			_bankCount++;
+			_cycleState = 0;
+	
+		}
+	
+		if((_ledState == HIGH) && (_currentMillis - _previousMillis >= time)) {
+	
+			_ledState = LOW;  						// Turn the LED bank off
+			_previousMillis = _currentMillis;  		// Remember the time
+			digitalWrite(_bankFloat, _ledState);  	// Update the actual LED bank with the state
+			_subState++; 							// increment the variable that tells us when the cycle is complete
+	
+		}
+	
+		else if ((_ledState == LOW) && (_currentMillis - _previousMillis >= time)) {
+	
+			_ledState = HIGH;  						// Turn the LED bank on
+			_previousMillis = _currentMillis;   	// Remember the time
+			digitalWrite(_bankFloat, _ledState);    // Update the actual LED bank with the state
+			_subState++;							// increment the variable that tells us when the cycle is complete
+		
+		}
+
+		// Here we are a variable to track if the cycle is complete.  Each subcomponent of the cycle increments the variable.  We are testing if the cycle is done with an integer.
+		if (_subState >= 2) { 
+	
+			_subState = 0; _cycleState = 1; 
+		
+		} 
+
+	} while (_bankCount < 9);
+	
 	_bankCount = 0;
-	_onTime = time;
-	_offTime = time;
 	
-	// read the current time value and store it for comparison
-	_currentMillis = millis();
-
-	// Serial Monitor
-	// Serial.print ("Cycle State: ");
-	// Serial.println(_cycleState);
-
-	// Here we are checking to see if the cycle has completed.  If it has we increment the variable we intend to digitalWrite(); to.  When we have completed that we reset the cycle variable to incomplete.
-	if (_cycleState == 1) {
-
-		_bankFloat++;
-		_cycleState = 0;
-		
-	}
-
-	// Keep  bank value we digitalWrite(); to in bounds
-	if ((_bankFloat > 9) || (_bankFloat < 2)) {
-	
-		 _bankFloat = 2; 
-		 
-	}
-
-	// Serial Monitor
-	// Serial.print ("Bank: ");
-	// Serial.println(_bankFloat);
- 
-	if((_ledState == HIGH) && (_currentMillis - _previousMillis >= _onTime)) {
-	
-		_ledState = LOW;  						// Turn the LED bank off
-		_previousMillis = _currentMillis;  		// Remember the time
-		digitalWrite(_bankFloat, _ledState);  	// Update the actual LED bank with the state
-		_subState++; 							// increment the variable that tells us when the cycle is complete
-	
-	}
-	
-	else if ((_ledState == LOW) && (_currentMillis - _previousMillis >= _offTime)) {
-	
-		_ledState = HIGH;  						// Turn the LED bank on
-		_previousMillis = _currentMillis;   	// Remember the time
-		digitalWrite(_bankFloat, _ledState);    // Update the actual LED bank with the state
-		_subState++;							// increment the variable that tells us when the cycle is complete
-		
-	}
-
-	// Here we are a variable to track if the cycle is complete.  Each subcomponent of the cycle increments the variable.  We are testing if the cycle is done with an integer.
-	if (_subState >= 2) { 
-	
-		_subState = 0; _cycleState = 1; 
-	
-	}
 }
 
-void Matrix::test(int maxCount, int time)
+void Matrix::test_upHorizontal(int maxCount, int time)
 
 {
 
-	_bankCount = 0;
-	_bankFloat = 2;
-	_onTime = time;
-	_offTime = time;
+	_bankFloat = 9;
+
+	do {	
 	
-	// check to see if it's time to change the state of the LED
-	_currentMillis = millis();
+		// read the current time value and store it for comparison
+		_currentMillis = millis();
+
+		// Here we are checking to see if the ON OFF cycle has completed.  If it has we increment the variable we intend to digitalWrite(); to.  When we have completed that we reset the cycle variable to incomplete.
+		if (_cycleState == 1) {
+
+			_bankFloat--;
+			_bankCount++; 
+			_cycleState = 0;
+			
+		}
  
-	if((_ledState == HIGH) && (_currentMillis - _previousMillis >= _onTime)) {
+		if((_ledState == HIGH) && (_currentMillis - _previousMillis >= time)) {
 	
-			_ledState = LOW;  // Turn it off
-			_previousMillis = _currentMillis;  // Remember the time
-			digitalWrite(_bankFloat, _ledState);  // Update the actual LED
-	}
-	else if ((_ledState == LOW) && (_currentMillis - _previousMillis >= _offTime)) {
+			_ledState = LOW;  						// Turn the LED bank off
+			_previousMillis = _currentMillis;  		// Remember the time
+			digitalWrite(_bankFloat, _ledState);  	// Update the actual LED bank with the state
+			_subState++; 							// increment the variable that tells us when the cycle is complete
 	
-			_ledState = HIGH;  // turn it on
-			_previousMillis = _currentMillis;   // Remember the time
-			digitalWrite(_bankFloat, _ledState);    // Update the actual LED
-	}
+		}
+	
+		else if ((_ledState == LOW) && (_currentMillis - _previousMillis >= time)) {
+	
+			_ledState = HIGH;  						// Turn the LED bank on
+			_previousMillis = _currentMillis;   	// Remember the time
+			digitalWrite(_bankFloat, _ledState);    // Update the actual LED bank with the state
+			_subState++;							// increment the variable that tells us when the cycle is complete
+		
+		}
+
+		// Here we are a variable to track if the cycle is complete.  Each subcomponent of the cycle increments the variable.  We are testing if the cycle is done with an integer.
+		if (_subState >= 2) { 
+	
+			_subState = 0; _cycleState = 1;
+		
+		} 
+
+	} while (_bankCount < 9);
+	
+	_bankCount = 0;
+	
 }
-
-
-
-

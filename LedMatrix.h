@@ -44,6 +44,7 @@ class Matrix {
 		void turnOnAllButTwo(int maxCount, int time);
 		void test(int maxCount, int time);
 		void test_downHorizontal(int maxCount, int time);
+		void test_upHorizontal(int maxCount, int time);
 				
 	// private interface
 	private:
