@@ -43,8 +43,10 @@ class Matrix {
     void turnOnAllButOne(int maxCount, int time);
     void turnOnAllButTwo(int maxCount, int time);
     void test(int maxCount, int time);
-    void test_downHorizontal(int maxCount, int time);
-    void test_upHorizontal(int maxCount, int time);
+    void test_downHorizontal(int maxCount, int onTime, int offTime);
+    void test_upHorizontal(int maxCount, int onTime, int offTime);
+    void test_rowUp(int maxCount, int onTime, int offTime);
+    void test_rowDown(int maxCount, int onTime, int offTime);
 
     // private interface
   private:
@@ -52,8 +54,8 @@ class Matrix {
     int _bankFloat;
     int _bankCount;
     int _ledState;
-    int _cycleState;  // boolean to determine if the ON OFF cycle is complete
-    int _subState;    // working integer for the boolean determination
+    int _cycleState;  // variable to determine if the ON OFF cycle is complete
+    int _subState;    // counter for the components of state completion
     int _bank01;
     int _bank02;
     int _bank03;
@@ -66,8 +68,6 @@ class Matrix {
     unsigned long _currentMillis;
     long _onTime;
     long _offTime;
-    long _dwell;
-
 
 };
 
