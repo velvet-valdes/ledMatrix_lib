@@ -38,7 +38,7 @@ Matrix::Matrix(int bank01, int bank02, int bank03, int bank04, int bank05, int b
 void Matrix::turnOn()
 
 {
-  // Turn on the bank assigned to the private floating variable
+  // Turn on the bank assigned to the private floating variable -- this is redundant
   digitalWrite(_bankFloat, HIGH);
 
 }
@@ -237,6 +237,7 @@ void Matrix::downRight(int maxCount, int time)
 }
 
 
+// DEPRECATE AFTER TESTING
 void Matrix::snakeDown(int maxCount, int time)
 
 {
@@ -262,6 +263,7 @@ void Matrix::snakeDown(int maxCount, int time)
 }
 
 
+// DEPRECATE AFTER TESTING
 void Matrix::snakeUp(int maxCount, int time)
 
 {
@@ -287,6 +289,7 @@ void Matrix::snakeUp(int maxCount, int time)
 }
 
 
+// DEPRECATE AFTER TESTING
 void Matrix::randomOne(int maxCount, int time)
 
 {
@@ -324,6 +327,7 @@ void Matrix::randomTwo(int maxCount, int time)
 }
 
 
+// DEPRECATE AFTER TESTING
 void Matrix::randomThree(int maxCount, int time)
 
 {
@@ -1131,5 +1135,724 @@ void Matrix::test_upLeft (int maxCount, int onTime, int offTime)
   } while (_bankCount < (4 * maxCount));
 
   _bankCount = 0; // Leaving the function by setting the bank count variable back to zero
+
+}
+
+void Matrix::test_snakeDown (int maxCount, int onTime, int offTime)
+
+{
+
+  _bankFloat = 2; // We are starting from the lowest bank number
+  _onTime = onTime;
+  _offTime = offTime;
+
+  do {
+
+    // change the range of the _bankFloat variable if it is out of bound to the starting bank number
+    if ( _bankFloat > 9 || _bankFloat < 2 ) {
+
+      _bankFloat = 2;
+
+    }
+    // read the current time value and store it for comparison
+    _currentMillis = millis();
+
+    // Here we are checking to see if the ON OFF cycle has completed.  If it has we increment the variable we intend to digitalWrite(); to.  When we have completed that we reset the cycle variable to incomplete.
+    if (_cycleState == 1) {
+
+      _bankFloat++;
+      _bankCount++; // incrementing the bank count variable that controls the 'do while' condition
+      _cycleState = 0;
+
+    }
+
+    if ((_ledState == HIGH) && (_currentMillis - _previousMillis >= _onTime)) {
+
+      _ledState = LOW; // Turn the LED bank off
+      _previousMillis = _currentMillis; // Remember the time
+      digitalWrite(_bankFloat, _ledState); // Update the actual LED bank with the state
+      _subState++; // increment the variable that tells us when the cycle is complete
+
+    }
+
+    else if ((_ledState == LOW) && (_currentMillis - _previousMillis >= _offTime)) {
+
+      _ledState = HIGH; // Turn the LED bank on
+      _previousMillis = _currentMillis; // Remember the time
+      digitalWrite(_bankFloat, _ledState); // Update the actual LED bank with the state
+      digitalWrite(_bankFloat + 1, _ledState); // Update the actual LED bank with the state
+      digitalWrite(_bankFloat + 2, _ledState);
+      _subState++; // increment the variable that tells us when the cycle is complete
+
+    }
+
+    // Here we are a variable to track if the cycle is complete.  Each subcomponent of the cycle increments the variable.  We are testing if the cycle is done with an integer.
+    if (_subState >= 2) {
+
+      _subState = 0; _cycleState = 1;
+
+    }
+
+  } while (_bankCount < (8 * maxCount));
+
+  _bankCount = 0; // Leaving the function by setting the bank count variable back to zero
+
+}
+
+void Matrix::test_snakeUp (int maxCount, int onTime, int offTime)
+
+{
+
+  _bankFloat = 9; // We are starting from the highest bank number
+  _onTime = onTime;
+  _offTime = offTime;
+
+  do {
+
+    // change the range of the _bankFloat variable if it is out of bound to the starting bank number
+    if ( _bankFloat > 9 || _bankFloat < 2 ) {
+
+      _bankFloat = 9;
+
+    }
+    // read the current time value and store it for comparison
+    _currentMillis = millis();
+
+    // Here we are checking to see if the ON OFF cycle has completed.  If it has we decrement the variable we intend to digitalWrite(); to.  When we have completed that we reset the cycle variable to incomplete.
+    if (_cycleState == 1) {
+
+      _bankFloat--;
+      _bankCount++; // incrementing the bank count variable that controls the 'do while' condition
+      _cycleState = 0;
+
+    }
+
+    if ((_ledState == HIGH) && (_currentMillis - _previousMillis >= _onTime)) {
+
+      _ledState = LOW; // Turn the LED bank off
+      _previousMillis = _currentMillis; // Remember the time
+      digitalWrite(_bankFloat, _ledState); // Update the actual LED bank with the state
+      _subState++; // increment the variable that tells us when the cycle is complete
+
+    }
+
+    else if ((_ledState == LOW) && (_currentMillis - _previousMillis >= _offTime)) {
+
+      _ledState = HIGH; // Turn the LED bank on
+      _previousMillis = _currentMillis; // Remember the time
+      digitalWrite(_bankFloat, _ledState); // Update the actual LED bank with the state
+      digitalWrite(_bankFloat - 1, _ledState); // Update the actual LED bank with the state
+      digitalWrite(_bankFloat - 2, _ledState);
+      _subState++; // increment the variable that tells us when the cycle is complete
+
+    }
+
+    // Here we are a variable to track if the cycle is complete.  Each subcomponent of the cycle increments the variable.  We are testing if the cycle is done with an integer.
+    if (_subState >= 2) {
+
+      _subState = 0; _cycleState = 1;
+
+    }
+
+  } while (_bankCount < (8 * maxCount));
+
+  _bankCount = 0; // Leaving the function by setting the bank count variable back to zero
+
+}
+
+void Matrix::test_randomOne(int maxCount, int onTime, int offTime)
+
+{
+  _bankFloat = random(2, 9);
+  _onTime = onTime;
+  _offTime = offTime;
+
+  do {
+
+    // change the range of the _bankFloat variable if it is out of bounds to the starting bank number
+    if ( _bankFloat > 9 || _bankFloat < 2 ) {
+
+      _bankFloat = random(2, 9);
+
+    }
+
+    // read the current time value and store it for comparison
+    _currentMillis = millis();
+
+    // Here we are checking to see if the ON OFF cycle has completed.  If it has we increment the variable we intend to digitalWrite(); to.  When we have completed that we reset the cycle variable to incomplete.
+    if (_cycleState == 1) {
+
+      _bankFloat = random(2, 9); // we shouldn't need to increment the bank float.  this is a random function
+      _bankCount++;
+      _cycleState = 0;
+
+    }
+
+    if ((_ledState == HIGH) && (_currentMillis - _previousMillis >= _onTime)) {
+
+      _ledState = LOW; // Turn the LED bank off
+      _previousMillis = _currentMillis; // Remember the time
+      digitalWrite(_bankFloat, _ledState); // Update the actual LED bank with the state
+      _subState++; // increment the variable that tells us when the cycle is complete
+
+    }
+
+    else if ((_ledState == LOW) && (_currentMillis - _previousMillis >= _offTime)) {
+
+      _ledState = HIGH; // Turn the LED bank on
+      _previousMillis = _currentMillis; // Remember the time
+      digitalWrite(_bankFloat, _ledState); // Update the actual LED bank with the state
+      _subState++; // increment the variable that tells us when the cycle is complete
+
+    }
+
+    // Here we are a variable to track if the cycle is complete.  Each subcomponent of the cycle increments the variable.  We are testing if the cycle is done with an integer.
+    if (_subState >= 2) {
+
+      _subState = 0; _cycleState = 1;
+
+    }
+
+  } while (_bankCount < (8 * maxCount));
+
+  _bankCount = 0;
+
+}
+
+void Matrix::test_randomTwo(int maxCount, int onTime, int offTime)
+
+{
+  _bankFloat = random(2, 9);
+  _onTime = onTime;
+  _offTime = offTime;
+
+  do {
+
+    // change the range of the _bankFloat variable if it is out of bounds to the starting bank number
+    if ( _bankFloat > 9 || _bankFloat < 2 ) {
+
+      _bankFloat = random(2, 9);
+
+    }
+
+    // read the current time value and store it for comparison
+    _currentMillis = millis();
+
+    // Here we are checking to see if the ON OFF cycle has completed.  If it has we increment the variable we intend to digitalWrite(); to.  When we have completed that we reset the cycle variable to incomplete.
+    if (_cycleState == 1) {
+
+      _bankFloat = random(2, 9); // we shouldn't need to increment the bank float.  this is a random function
+      _bankCount++;
+      _cycleState = 0;
+
+    }
+
+    if ((_ledState == HIGH) && (_currentMillis - _previousMillis >= _onTime)) {
+
+      _ledState = LOW; // Turn the LED bank off
+      _previousMillis = _currentMillis; // Remember the time
+      digitalWrite(_bankFloat, _ledState); // Update the actual LED bank with the state
+      digitalWrite(_bankFloat + 1, _ledState); // Update the actual LED bank with the state
+      _subState++; // increment the variable that tells us when the cycle is complete
+
+    }
+
+    else if ((_ledState == LOW) && (_currentMillis - _previousMillis >= _offTime)) {
+
+      _ledState = HIGH; // Turn the LED bank on
+      _previousMillis = _currentMillis; // Remember the time
+      digitalWrite(_bankFloat, _ledState); // Update the actual LED bank with the state
+      digitalWrite(_bankFloat + 1, _ledState); // Update the actual LED bank with the state
+      _subState++; // increment the variable that tells us when the cycle is complete
+
+    }
+
+    // Here we are a variable to track if the cycle is complete.  Each subcomponent of the cycle increments the variable.  We are testing if the cycle is done with an integer.
+    if (_subState >= 2) {
+
+      _subState = 0; _cycleState = 1;
+
+    }
+
+  } while (_bankCount < (8 * maxCount));
+
+  _bankCount = 0;
+
+}
+
+void Matrix::test_randomThree(int maxCount, int onTime, int offTime)
+
+{
+  _bankFloat = random(2, 9);
+  _onTime = onTime;
+  _offTime = offTime;
+
+  do {
+
+    // change the range of the _bankFloat variable if it is out of bounds to the starting bank number
+    if ( _bankFloat > 9 || _bankFloat < 2 ) {
+
+      _bankFloat = random(2, 9);
+
+    }
+
+    // read the current time value and store it for comparison
+    _currentMillis = millis();
+
+    // this is a random function so we will set the variable here
+    _bankFloat = random(2, 9);
+
+    // Here we are checking to see if the ON OFF cycle has completed.  If it has we increment the variable we intend to digitalWrite(); to.  When we have completed that we reset the cycle variable to incomplete.
+    if (_cycleState == 1) {
+
+      // _bankFloat++; // we shouldn't need to increment the bank float.  this is a random function
+      _bankCount++;
+      _cycleState = 0;
+
+    }
+
+    if ((_ledState == HIGH) && (_currentMillis - _previousMillis >= _onTime)) {
+
+      _ledState = LOW; // Turn the LED bank off
+      _previousMillis = _currentMillis; // Remember the time
+      digitalWrite(_bankFloat, _ledState); // Update the actual LED bank with the state
+      _subState++; // increment the variable that tells us when the cycle is complete
+
+    }
+
+    else if ((_ledState == LOW) && (_currentMillis - _previousMillis >= _offTime)) {
+
+      _ledState = HIGH; // Turn the LED bank on
+      _previousMillis = _currentMillis; // Remember the time
+      digitalWrite(_bankFloat, _ledState); // Update the actual LED bank with the state
+      _subState++; // increment the variable that tells us when the cycle is complete
+
+    }
+
+    // Here we are a variable to track if the cycle is complete.  Each subcomponent of the cycle increments the variable.  We are testing if the cycle is done with an integer.
+    if (_subState >= 2) {
+
+      _subState = 0; _cycleState = 1;
+
+    }
+
+  } while (_bankCount < (8 * maxCount));
+
+  _bankCount = 0;
+
+}
+
+
+void Matrix::test_blinkSingleWhiteDown(int maxCount, int onTime, int offTime)
+
+{
+  _bankFloat = 2;
+  _onTime = onTime;
+  _offTime = offTime;
+
+  do {
+
+    // change the range of the _bankFloat variable if it is out of bound to the starting bank number
+    if ( _bankFloat > 9 || _bankFloat < 2 ) {
+
+      _bankFloat = 2;
+
+    }
+
+    // read the current time value and store it for comparison
+    _currentMillis = millis();
+
+    // Here we are checking to see if the ON OFF cycle has completed.  If it has we increment the variable we intend to digitalWrite(); to.  When we have completed that we reset the cycle variable to incomplete.
+    if (_cycleState == 1) {
+
+      // test to see if the bank variable is an even or odd number that isn't 4 or 8
+      if  ((_bankCount % 2 == 0) && (_bankFloat == 2 || _bankFloat == 6)) {
+
+        _bankFloat = _bankFloat + 3; // increment the current bank float by three if its an even number
+        _bankCount++; // increment the while loop variable
+        _cycleState = 0; // reset the cycle state
+
+      }
+
+      else {
+
+        _bankFloat++; // increment the current bank float by one if it doesn't meet the above test
+        _bankCount++; // increment the while loop variable
+        _cycleState = 0; // reset the cycle state
+
+      }
+    }
+
+    if ((_ledState == HIGH) && (_currentMillis - _previousMillis >= _onTime)) {
+
+      _ledState = LOW; // Turn the LED bank off
+      _previousMillis = _currentMillis; // Remember the time
+      digitalWrite(_bankFloat, _ledState); // Update the actual LED bank with the state
+      _subState++; // increment the variable that tells us when the cycle is complete
+
+    }
+
+    else if ((_ledState == LOW) && (_currentMillis - _previousMillis >= _offTime)) {
+
+      _ledState = HIGH; // Turn the LED bank on
+      _previousMillis = _currentMillis; // Remember the time
+      digitalWrite(_bankFloat, _ledState); // Update the actual LED bank with the state
+      _subState++; // increment the variable that tells us when the cycle is complete
+
+    }
+
+    // Here we are a variable to track if the cycle is complete.  Each subcomponent of the cycle increments the variable.  We are testing if the cycle is done with an integer.
+    if (_subState >= 2) {
+
+      _subState = 0; _cycleState = 1;
+
+    }
+
+  } while (_bankCount < (4 * maxCount));
+
+  _bankCount = 0;
+
+}
+
+void Matrix::test_blinkSingleWhiteUp(int maxCount, int onTime, int offTime)
+
+{
+  _bankFloat = 9;
+  _onTime = onTime;
+  _offTime = offTime;
+
+  do {
+
+    // change the range of the _bankFloat variable if it is out of bound to the starting bank number
+    if ( _bankFloat > 9 || _bankFloat < 2 ) {
+
+      _bankFloat = 9;
+
+    }
+
+    // read the current time value and store it for comparison
+    _currentMillis = millis();
+
+    // Here we are checking to see if the ON OFF cycle has completed.  If it has we increment the variable we intend to digitalWrite(); to.  When we have completed that we reset the cycle variable to incomplete.
+    if (_cycleState == 1) {
+
+      // test to see if the bank variable is an even or odd number that isn't 4 or 8
+      if  ((_bankCount % 2 == 0) && (_bankFloat == 5 || _bankFloat == 9)) {
+
+        _bankFloat = _bankFloat - 3; // decrement the current bank float by three if its an odd number
+        _bankCount++; // increment the while loop variable
+        _cycleState = 0; // reset the cycle state
+
+      }
+
+      else {
+
+        _bankFloat--; // decrement the current bank float by one if it doesn't meet the above test
+        _bankCount++; // increment the while loop variable
+        _cycleState = 0; // reset the cycle state
+
+      }
+    }
+
+    if ((_ledState == HIGH) && (_currentMillis - _previousMillis >= _onTime)) {
+
+      _ledState = LOW; // Turn the LED bank off
+      _previousMillis = _currentMillis; // Remember the time
+      digitalWrite(_bankFloat, _ledState); // Update the actual LED bank with the state
+      _subState++; // increment the variable that tells us when the cycle is complete
+
+    }
+
+    else if ((_ledState == LOW) && (_currentMillis - _previousMillis >= _offTime)) {
+
+      _ledState = HIGH; // Turn the LED bank on
+      _previousMillis = _currentMillis; // Remember the time
+      digitalWrite(_bankFloat, _ledState); // Update the actual LED bank with the state
+      _subState++; // increment the variable that tells us when the cycle is complete
+
+    }
+
+    // Here we are a variable to track if the cycle is complete.  Each subcomponent of the cycle increments the variable.  We are testing if the cycle is done with an integer.
+    if (_subState >= 2) {
+
+      _subState = 0; _cycleState = 1;
+
+    }
+
+  } while (_bankCount < (4 * maxCount));
+
+  _bankCount = 0;
+
+}
+
+void Matrix::test_blinkSingleRedUp(int maxCount, int onTime, int offTime)
+
+{
+  _bankFloat = 8;
+  _onTime = onTime;
+  _offTime = offTime;
+
+  do {
+
+    // change the range of the _bankFloat variable if it is out of bound to the starting bank number
+    if ( _bankFloat > 9 || _bankFloat < 2 ) {
+
+      _bankFloat = 8;
+
+    }
+
+    // read the current time value and store it for comparison
+    _currentMillis = millis();
+
+    // Here we are checking to see if the ON OFF cycle has completed.  If it has we increment the variable we intend to digitalWrite(); to.  When we have completed that we reset the cycle variable to incomplete.
+    if (_cycleState == 1) {
+
+      // test to see if the bank variable is an even or odd number that isn't 4 or 8
+      if  ((_bankCount % 2 != 0) && (_bankFloat == 3 || _bankFloat == 7)) {
+
+        _bankFloat = _bankFloat - 3; // decrement the current bank float by three if its an odd number
+        _bankCount++; // increment the while loop variable
+        _cycleState = 0; // reset the cycle state
+
+      }
+
+      else {
+
+        _bankFloat--; // decrement the current bank float by one if it doesn't meet the above test
+        _bankCount++; // increment the while loop variable
+        _cycleState = 0; // reset the cycle state
+
+      }
+    }
+
+    if ((_ledState == HIGH) && (_currentMillis - _previousMillis >= _onTime)) {
+
+      _ledState = LOW; // Turn the LED bank off
+      _previousMillis = _currentMillis; // Remember the time
+      digitalWrite(_bankFloat, _ledState); // Update the actual LED bank with the state
+      _subState++; // increment the variable that tells us when the cycle is complete
+
+    }
+
+    else if ((_ledState == LOW) && (_currentMillis - _previousMillis >= _offTime)) {
+
+      _ledState = HIGH; // Turn the LED bank on
+      _previousMillis = _currentMillis; // Remember the time
+      digitalWrite(_bankFloat, _ledState); // Update the actual LED bank with the state
+      _subState++; // increment the variable that tells us when the cycle is complete
+
+    }
+
+    // Here we are a variable to track if the cycle is complete.  Each subcomponent of the cycle increments the variable.  We are testing if the cycle is done with an integer.
+    if (_subState >= 2) {
+
+      _subState = 0; _cycleState = 1;
+
+    }
+
+  } while (_bankCount < (4 * maxCount));
+
+  _bankCount = 0;
+
+}
+
+void Matrix::test_blinkSingleRedDown(int maxCount, int onTime, int offTime)
+
+{
+  _bankFloat = 3;
+  _onTime = onTime;
+  _offTime = offTime;
+
+  do {
+
+    // change the range of the _bankFloat variable if it is out of bound to the starting bank number
+    if ( _bankFloat > 9 || _bankFloat < 2 ) {
+
+      _bankFloat = 3;
+
+    }
+
+    // read the current time value and store it for comparison
+    _currentMillis = millis();
+
+    // Here we are checking to see if the ON OFF cycle has completed.  If it has we increment the variable we intend to digitalWrite(); to.  When we have completed that we reset the cycle variable to incomplete.
+    if (_cycleState == 1) {
+
+      // test to see if the bank variable is an even or odd number that isn't 4 or 8
+      if  ((_bankCount % 2 != 0) && (_bankFloat == 4 || _bankFloat == 8)) {
+
+        _bankFloat = _bankFloat + 3; // decrement the current bank float by three if its an odd number
+        _bankCount++; // increment the while loop variable
+        _cycleState = 0; // reset the cycle state
+
+      }
+
+      else {
+
+        _bankFloat++; // decrement the current bank float by one if it doesn't meet the above test
+        _bankCount++; // increment the while loop variable
+        _cycleState = 0; // reset the cycle state
+
+      }
+    }
+
+    if ((_ledState == HIGH) && (_currentMillis - _previousMillis >= _onTime)) {
+
+      _ledState = LOW; // Turn the LED bank off
+      _previousMillis = _currentMillis; // Remember the time
+      digitalWrite(_bankFloat, _ledState); // Update the actual LED bank with the state
+      _subState++; // increment the variable that tells us when the cycle is complete
+
+    }
+
+    else if ((_ledState == LOW) && (_currentMillis - _previousMillis >= _offTime)) {
+
+      _ledState = HIGH; // Turn the LED bank on
+      _previousMillis = _currentMillis; // Remember the time
+      digitalWrite(_bankFloat, _ledState); // Update the actual LED bank with the state
+      _subState++; // increment the variable that tells us when the cycle is complete
+
+    }
+
+    // Here we are a variable to track if the cycle is complete.  Each subcomponent of the cycle increments the variable.  We are testing if the cycle is done with an integer.
+    if (_subState >= 2) {
+
+      _subState = 0; _cycleState = 1;
+
+    }
+
+  } while (_bankCount < (4 * maxCount));
+
+  _bankCount = 0;
+
+}
+
+void Matrix::test_blinkRed(int maxCount, int onTime, int offTime)
+
+{
+  _bankFloat = 8;
+  _onTime = onTime;
+  _offTime = offTime;
+
+  do {
+
+    // change the range of the _bankFloat variable if it is out of bound to the starting bank number
+    if ( _bankFloat > 9 || _bankFloat < 2 ) {
+
+      _bankFloat = 8;
+
+    }
+
+    // read the current time value and store it for comparison
+    _currentMillis = millis();
+
+    // Here we are checking to see if the ON OFF cycle has completed.  If it has we increment the variable we intend to digitalWrite(); to.  When we have completed that we reset the cycle variable to incomplete.
+    if (_cycleState == 1) {
+
+      _bankCount++; // increment the while loop variable
+      _cycleState = 0; // reset the cycle state
+
+    }
+
+
+    if ((_ledState == HIGH) && (_currentMillis - _previousMillis >= _onTime)) {
+
+      _ledState = LOW; // Turn the LED bank off
+      _previousMillis = _currentMillis; // Remember the time
+      digitalWrite(_bankFloat, _ledState); // Update the actual LED bank with the state
+      digitalWrite(_bankFloat - 1, _ledState);
+      digitalWrite(_bankFloat - 4, _ledState);
+      digitalWrite(_bankFloat - 5, _ledState);
+      _subState++; // increment the variable that tells us when the cycle is complete
+
+    }
+
+    else if ((_ledState == LOW) && (_currentMillis - _previousMillis >= _offTime)) {
+
+      _ledState = HIGH; // Turn the LED bank on
+      _previousMillis = _currentMillis; // Remember the time
+      digitalWrite(_bankFloat, _ledState); // Update the actual LED bank with the state
+      digitalWrite(_bankFloat - 1, _ledState);
+      digitalWrite(_bankFloat - 4, _ledState);
+      digitalWrite(_bankFloat - 5, _ledState);
+      _subState++; // increment the variable that tells us when the cycle is complete
+
+    }
+
+    // Here we are a variable to track if the cycle is complete.  Each subcomponent of the cycle increments the variable.  We are testing if the cycle is done with an integer.
+    if (_subState >= 2) {
+
+      _subState = 0; _cycleState = 1;
+
+    }
+
+  } while (_bankCount < (4 * maxCount));
+
+  _bankCount = 0;
+
+}
+
+void Matrix::test_blinkWhite(int maxCount, int onTime, int offTime)
+
+{
+  _bankFloat = 2;
+  _onTime = onTime;
+  _offTime = offTime;
+
+  do {
+
+    // change the range of the _bankFloat variable if it is out of bound to the starting bank number
+    if ( _bankFloat > 9 || _bankFloat < 2 ) {
+
+      _bankFloat = 2;
+
+    }
+
+    // read the current time value and store it for comparison
+    _currentMillis = millis();
+
+    // Here we are checking to see if the ON OFF cycle has completed.  If it has we increment the variable we intend to digitalWrite(); to.  When we have completed that we reset the cycle variable to incomplete.
+    if (_cycleState == 1) {
+
+      _bankCount++; // increment the while loop variable
+      _cycleState = 0; // reset the cycle state
+
+    }
+
+
+    if ((_ledState == HIGH) && (_currentMillis - _previousMillis >= _onTime)) {
+
+      _ledState = LOW; // Turn the LED bank off
+      _previousMillis = _currentMillis; // Remember the time
+      digitalWrite(_bankFloat, _ledState); // Update the actual LED bank with the state
+      digitalWrite(_bankFloat + 3, _ledState);
+      digitalWrite(_bankFloat + 4, _ledState);
+      digitalWrite(_bankFloat + 7, _ledState);
+      _subState++; // increment the variable that tells us when the cycle is complete
+
+    }
+
+    else if ((_ledState == LOW) && (_currentMillis - _previousMillis >= _offTime)) {
+
+      _ledState = HIGH; // Turn the LED bank on
+      _previousMillis = _currentMillis; // Remember the time
+      digitalWrite(_bankFloat, _ledState); // Update the actual LED bank with the state
+      digitalWrite(_bankFloat + 3, _ledState);
+      digitalWrite(_bankFloat + 4, _ledState);
+      digitalWrite(_bankFloat + 7, _ledState);
+      _subState++; // increment the variable that tells us when the cycle is complete
+
+    }
+
+    // Here we are a variable to track if the cycle is complete.  Each subcomponent of the cycle increments the variable.  We are testing if the cycle is done with an integer.
+    if (_subState >= 2) {
+
+      _subState = 0; _cycleState = 1;
+
+    }
+
+  } while (_bankCount < (4 * maxCount));
+
+  _bankCount = 0;
 
 }
