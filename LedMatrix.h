@@ -21,47 +21,25 @@ class Matrix {
     void turnOff();
     void turnOnAll();
     void turnOffAll();
-    void downHorizontal(int maxCount, int time); // testing
-    void upHorizontal(int maxCount, int time); // testing
-    void downLeft(int maxCount, int time); // testing
-    void upRight(int maxCount, int time); // testing
-    void upLeft(int maxCount, int time); // testing
-    void downRight(int maxCount, int time); // testing
-    void snakeDown(int maxCount, int time); // testing
-    void snakeUp(int maxCount, int time); // testing
-    void randomOne(int maxCount, int time); // testing
-    void randomTwo(int maxCount, int time); // testing
-    void randomThree(int maxCount, int time); // testing
-    void blinkRed(int maxCount, int time); // testing
-    void blinkWhite(int maxCount, int time); // testing
-    void rowDown(int maxCount, int time); // testing
-    void rowUp(int maxCount, int time); // testing
-    void blinkSingleWhiteDown(int maxCount, int time); // testing
-    void blinkSingleRedDown(int maxCount, int time); // testing
-    void blinkSingleWhiteUp(int maxCount, int time); // testing
-    void blinkSingleRedUp(int maxCount, int time); // testing
-    void turnOnAllButOne(int maxCount, int time);
-    void turnOnAllButTwo(int maxCount, int time);
-    void test(int maxCount, int time);
-    void test_downHorizontal(int maxCount, int onTime, int offTime);
-    void test_upHorizontal(int maxCount, int onTime, int offTime);
-    void test_rowUp(int maxCount, int onTime, int offTime);
-    void test_rowDown(int maxCount, int onTime, int offTime);
-    void test_downLeft(int maxCount, int onTime, int offTime);
-    void test_downRight(int maxCount, int onTime, int offTime);
-    void test_upRight(int maxCount, int onTime, int offTime);
-    void test_upLeft(int maxCount, int onTime, int offTime);
-    void test_snakeDown (int maxCount, int onTime, int offTime);
-    void test_snakeUp (int maxCount, int onTime, int offTime);
-    void test_randomOne(int maxCount, int onTime, int offTime);
-    void test_randomTwo(int maxCount, int onTime, int offTime);
-    void test_randomThree(int maxCount, int onTime, int offTime);
-    void test_blinkSingleWhiteDown(int maxCount, int onTime, int offTime);
-    void test_blinkSingleWhiteUp(int maxCount, int onTime, int offTime);
-    void test_blinkSingleRedUp(int maxCount, int onTime, int offTime);
-    void test_blinkSingleRedDown(int maxCount, int onTime, int offTime);
-    void test_blinkRed(int maxCount, int onTime, int offTime);
-    void test_blinkWhite(int maxCount, int onTime, int offTime);
+    void downHorizontal(int maxCount, int onTime, int offTime);
+    void upHorizontal(int maxCount, int onTime, int offTime);
+    void downLeft(int maxCount, int onTime, int offTime);
+    void upRight(int maxCount, int onTime, int offTime);
+    void upLeft(int maxCount, int onTime, int offTime);
+    void downRight(int maxCount, int onTime, int offTime);
+    void snakeDown(int maxCount, int onTime, int offTime);
+    void snakeUp(int maxCount, int onTime, int offTime);
+    void randomOne(int maxCount, int onTime, int offTime);
+    void randomTwo(int maxCount, int onTime, int offTime);
+    void randomThree(int maxCount, int onTime, int offTime);
+    void blinkRed(int maxCount, int onTime, int offTime);
+    void blinkWhite(int maxCount, int onTime, int offTime);
+    void rowDown(int maxCount, int onTime, int offTime);
+    void rowUp(int maxCount, int onTime, int offTime);
+    void blinkSingleWhiteDown(int maxCount, int onTime, int offTime);
+    void blinkSingleRedDown(int maxCount, int onTime, int offTime);
+    void blinkSingleWhiteUp(int maxCount, int onTime, int offTime);
+    void blinkSingleRedUp(int maxCount, int onTime, int offTime);
 
     // private interface
   private:
@@ -83,7 +61,6 @@ class Matrix {
     unsigned long _currentMillis;
     long _onTime;
     long _offTime;
-
 };
 
 #endif
