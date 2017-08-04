@@ -35,8 +35,6 @@ void Matrix::turnOn()
 {
   // Turn on the bank assigned to the private floating variable -- this is redundant
   digitalWrite(_bankFloat, HIGH);
-
-
 }
 
 
@@ -75,13 +73,13 @@ void Matrix::turnOffAll()
 
 void Matrix::downHorizontal(int maxCount, int onTime, int offTime)
 {
-  _bankFloat = 2;
+  _bankFloat = _bank01;
   _onTime = onTime;
   _offTime = offTime;
   do {
     // change the range of the _bankFloat variable if it is out of bound to the starting bank number
-    if ( _bankFloat > 9 || _bankFloat < 2 ) {
-      _bankFloat = 2;
+    if ( _bankFloat > _bank08 || _bankFloat < _bank01 ) {
+      _bankFloat = _bank01;
     }
     // read the current time value and store it for comparison
     _currentMillis = millis();
@@ -116,13 +114,13 @@ void Matrix::downHorizontal(int maxCount, int onTime, int offTime)
 
 void Matrix::upHorizontal(int maxCount, int onTime, int offTime)
 {
-  _bankFloat = 9;
+  _bankFloat = _bank08;
   _onTime = onTime;
   _offTime = offTime;
   do {
     // change the range of the _bankFloat variable if it is out of bound to the starting bank number
-    if ( _bankFloat > 9 || _bankFloat < 2 ) {
-      _bankFloat = 9;
+    if ( _bankFloat > _bank08 || _bankFloat < _bank01 ) {
+      _bankFloat = _bank08;
     }
     // read the current time value and store it for comparison
     _currentMillis = millis();
@@ -155,13 +153,13 @@ void Matrix::upHorizontal(int maxCount, int onTime, int offTime)
 
 void Matrix::rowDown (int maxCount, int onTime, int offTime)
 {
-  _bankFloat = 2; // We are starting from the lowest bank number
+  _bankFloat = _bank01; // We are starting from the lowest bank number
   _onTime = onTime;
   _offTime = offTime;
   do {
     // change the range of the _bankFloat variable if it is out of bound to the starting bank number
-    if ( _bankFloat > 9 || _bankFloat < 2 ) {
-      _bankFloat = 2;
+    if ( _bankFloat > _bank08 || _bankFloat < _bank01 ) {
+      _bankFloat = _bank01;
     }
     // read the current time value and store it for comparison
     _currentMillis = millis();
@@ -197,13 +195,13 @@ void Matrix::rowDown (int maxCount, int onTime, int offTime)
 
 void Matrix::rowUp (int maxCount, int onTime, int offTime)
 {
-  _bankFloat = 9;  // We are starting from the highest bank number
+  _bankFloat = _bank08;  // We are starting from the highest bank number
   _onTime = onTime;
   _offTime = offTime;
   do {
     // change the range of the _bankFloat variable if it is out of bound to the starting bank number
-    if ( _bankFloat > 9 || _bankFloat < 2 ) {
-      _bankFloat = 9;
+    if ( _bankFloat > _bank08 || _bankFloat < _bank01 ) {
+      _bankFloat = _bank08;
     }
     // read the current time value and store it for comparison
     _currentMillis = millis();
@@ -240,13 +238,13 @@ void Matrix::rowUp (int maxCount, int onTime, int offTime)
 
 void Matrix::downLeft (int maxCount, int onTime, int offTime)
 {
-  _bankFloat = 2; // We are starting from the lowest bank number
+  _bankFloat = _bank01; // We are starting from the lowest bank number
   _onTime = onTime;
   _offTime = offTime;
   do {
     // change the range of the _bankFloat variable if it is out of bound to the starting bank number
-    if ( _bankFloat > 9 || _bankFloat < 2 ) {
-      _bankFloat = 2;
+    if ( _bankFloat > _bank08 || _bankFloat < _bank01 ) {
+      _bankFloat = _bank01;
     }
     // read the current time value and store it for comparison
     _currentMillis = millis();
@@ -282,13 +280,13 @@ void Matrix::downLeft (int maxCount, int onTime, int offTime)
 
 void Matrix::downRight (int maxCount, int onTime, int offTime)
 {
-  _bankFloat = 3; // We are starting from the lowest odd bank number
+  _bankFloat = _bank02; // We are starting from the lowest even bank number
   _onTime = onTime;
   _offTime = offTime;
   do {
     // change the range of the _bankFloat variable if it is out of bound to the starting bank number
-    if ( _bankFloat > 9 || _bankFloat < 2 ) {
-      _bankFloat = 3;
+    if ( _bankFloat > _bank08 || _bankFloat < _bank01 ) {
+      _bankFloat = _bank02;
     }
     // read the current time value and store it for comparison
     _currentMillis = millis();
@@ -324,13 +322,13 @@ void Matrix::downRight (int maxCount, int onTime, int offTime)
 
 void Matrix::upRight (int maxCount, int onTime, int offTime)
 {
-  _bankFloat = 9; // We are starting from the highest bank number
+  _bankFloat = _bank08; // We are starting from the highest bank number
   _onTime = onTime;
   _offTime = offTime;
   do {
     // change the range of the _bankFloat variable if it is out of bound to the starting bank number
-    if ( _bankFloat > 9 || _bankFloat < 2 ) {
-      _bankFloat = 9;
+    if ( _bankFloat > _bank08 || _bankFloat < _bank01 ) {
+      _bankFloat = _bank08;
     }
     // read the current time value and store it for comparison
     _currentMillis = millis();
@@ -366,13 +364,13 @@ void Matrix::upRight (int maxCount, int onTime, int offTime)
 
 void Matrix::upLeft (int maxCount, int onTime, int offTime)
 {
-  _bankFloat = 8; // We are starting from the highest even bank number
+  _bankFloat = _bank07; // We are starting from the highest odd bank number
   _onTime = onTime;
   _offTime = offTime;
   do {
     // change the range of the _bankFloat variable if it is out of bound to the starting bank number
-    if ( _bankFloat > 9 || _bankFloat < 2 ) {
-      _bankFloat = 8;
+    if ( _bankFloat > _bank08 || _bankFloat < _bank01 ) {
+      _bankFloat = _bank07;
     }
     // read the current time value and store it for comparison
     _currentMillis = millis();
@@ -409,13 +407,13 @@ void Matrix::upLeft (int maxCount, int onTime, int offTime)
 
 void Matrix::snakeDown (int maxCount, int onTime, int offTime)
 {
-  _bankFloat = 2; // We are starting from the lowest bank number
+  _bankFloat = _bank01; // We are starting from the lowest bank number
   _onTime = onTime;
   _offTime = offTime;
   do {
     // change the range of the _bankFloat variable if it is out of bound to the starting bank number
-    if ( _bankFloat > 9 || _bankFloat < 2 ) {
-      _bankFloat = 2;
+    if ( _bankFloat > _bank08 || _bankFloat < _bank01 ) {
+      _bankFloat = _bank01;
     }
     // read the current time value and store it for comparison
     _currentMillis = millis();
@@ -450,13 +448,13 @@ void Matrix::snakeDown (int maxCount, int onTime, int offTime)
 
 void Matrix::snakeUp (int maxCount, int onTime, int offTime)
 {
-  _bankFloat = 9; // We are starting from the highest bank number
+  _bankFloat = _bank08; // We are starting from the highest bank number
   _onTime = onTime;
   _offTime = offTime;
   do {
     // change the range of the _bankFloat variable if it is out of bound to the starting bank number
-    if ( _bankFloat > 9 || _bankFloat < 2 ) {
-      _bankFloat = 9;
+    if ( _bankFloat > _bank08 || _bankFloat < _bank01 ) {
+      _bankFloat = _bank08;
     }
     // read the current time value and store it for comparison
     _currentMillis = millis();
@@ -491,19 +489,19 @@ void Matrix::snakeUp (int maxCount, int onTime, int offTime)
 
 void Matrix::randomOne(int maxCount, int onTime, int offTime)
 {
-  _bankFloat = random(2, 9);
+  _bankFloat = random(_bank01, _bank08);
   _onTime = onTime;
   _offTime = offTime;
   do {
     // change the range of the _bankFloat variable if it is out of bounds to the starting bank number
-    if ( _bankFloat > 9 || _bankFloat < 2 ) {
-      _bankFloat = random(2, 9);
+    if ( _bankFloat > _bank08 || _bankFloat < _bank01 ) {
+      _bankFloat = random(_bank01, _bank08);
     }
     // read the current time value and store it for comparison
     _currentMillis = millis();
     // Here we are checking to see if the ON OFF cycle has completed.  If it has we increment the variable we intend to digitalWrite(); to.  When we have completed that we reset the cycle variable to incomplete.
     if (_cycleState == 1) {
-      _bankFloat = random(2, 9); // we shouldn't need to increment the bank float.  this is a random function
+      _bankFloat = random(_bank01, _bank08); // we shouldn't need to increment the bank float.  this is a random function
       _bankCount++;
       _cycleState = 0;
     }
@@ -530,19 +528,19 @@ void Matrix::randomOne(int maxCount, int onTime, int offTime)
 
 void Matrix::randomTwo(int maxCount, int onTime, int offTime)
 {
-  _bankFloat = random(2, 9);
+  _bankFloat = random(_bank01, _bank08);
   _onTime = onTime;
   _offTime = offTime;
   do {
     // change the range of the _bankFloat variable if it is out of bounds to the starting bank number
-    if ( _bankFloat > 9 || _bankFloat < 2 ) {
-      _bankFloat = random(2, 9);
+    if ( _bankFloat > _bank08 || _bankFloat < _bank01 ) {
+      _bankFloat = random(_bank01, _bank08);
     }
     // read the current time value and store it for comparison
     _currentMillis = millis();
     // Here we are checking to see if the ON OFF cycle has completed.  If it has we increment the variable we intend to digitalWrite(); to.  When we have completed that we reset the cycle variable to incomplete.
     if (_cycleState == 1) {
-      _bankFloat = random(2, 9); // we shouldn't need to increment the bank float.  this is a random function
+      _bankFloat = random(_bank01, _bank08); // we shouldn't need to increment the bank float.  this is a random function
       _bankCount++;
       _cycleState = 0;
     }
@@ -571,18 +569,18 @@ void Matrix::randomTwo(int maxCount, int onTime, int offTime)
 
 void Matrix::randomThree(int maxCount, int onTime, int offTime)
 {
-  _bankFloat = random(2, 9);
+  _bankFloat = random(_bank01, _bank08);
   _onTime = onTime;
   _offTime = offTime;
   do {
     // change the range of the _bankFloat variable if it is out of bounds to the starting bank number
-    if ( _bankFloat > 9 || _bankFloat < 2 ) {
-      _bankFloat = random(2, 9);
+    if ( _bankFloat > _bank08 || _bankFloat < _bank01 ) {
+      _bankFloat = random(_bank01, _bank08);
     }
     // read the current time value and store it for comparison
     _currentMillis = millis();
     // this is a random function so we will set the variable here
-    _bankFloat = random(2, 9);
+    _bankFloat = random(_bank01, _bank08);
     // Here we are checking to see if the ON OFF cycle has completed.  If it has we increment the variable we intend to digitalWrite(); to.  When we have completed that we reset the cycle variable to incomplete.
     if (_cycleState == 1) {
       // _bankFloat++; // we shouldn't need to increment the bank float.  this is a random function
@@ -612,21 +610,21 @@ void Matrix::randomThree(int maxCount, int onTime, int offTime)
 
 void Matrix::blinkSingleWhiteDown(int maxCount, int onTime, int offTime)
 {
-  _bankFloat = 2;
+  _bankFloat = _bank01;
   _onTime = onTime;
   _offTime = offTime;
   do {
     // change the range of the _bankFloat variable if it is out of bound to the starting bank number
-    if ( _bankFloat > 9 || _bankFloat < 2 ) {
-      _bankFloat = 2;
+    if ( _bankFloat > _bank08 || _bankFloat < _bank01 ) {
+      _bankFloat = _bank01;
     }
     // read the current time value and store it for comparison
     _currentMillis = millis();
     // Here we are checking to see if the ON OFF cycle has completed.  If it has we increment the variable we intend to digitalWrite(); to.  When we have completed that we reset the cycle variable to incomplete.
     if (_cycleState == 1) {
-      // test to see if the bank variable is an even or odd number that isn't 4 or 8
-      if  ((_bankCount % 2 == 0) && (_bankFloat == 2 || _bankFloat == 6)) {
-        _bankFloat = _bankFloat + 3; // increment the current bank float by three if its an even number
+      // test to see if the bank variable is an even or odd number that isn't 4 or 8 ??
+      if  ((_bankCount % 2 == 0) && (_bankFloat == _bank01 || _bankFloat == _bank05)) {
+        _bankFloat = _bankFloat + 3; // increment the current bank float by three if its an even number ??
         _bankCount++; // increment the while loop variable
         _cycleState = 0; // reset the cycle state
       }
@@ -659,20 +657,20 @@ void Matrix::blinkSingleWhiteDown(int maxCount, int onTime, int offTime)
 
 void Matrix::blinkSingleWhiteUp(int maxCount, int onTime, int offTime)
 {
-  _bankFloat = 9;
+  _bankFloat = _bank08;
   _onTime = onTime;
   _offTime = offTime;
   do {
     // change the range of the _bankFloat variable if it is out of bound to the starting bank number
-    if ( _bankFloat > 9 || _bankFloat < 2 ) {
-      _bankFloat = 9;
+    if ( _bankFloat > _bank08 || _bankFloat < _bank01 ) {
+      _bankFloat = _bank08;
     }
     // read the current time value and store it for comparison
     _currentMillis = millis();
     // Here we are checking to see if the ON OFF cycle has completed.  If it has we increment the variable we intend to digitalWrite(); to.  When we have completed that we reset the cycle variable to incomplete.
     if (_cycleState == 1) {
       // test to see if the bank variable is an even or odd number that isn't 4 or 8
-      if  ((_bankCount % 2 == 0) && (_bankFloat == 5 || _bankFloat == 9)) {
+      if  ((_bankCount % 2 == 0) && (_bankFloat == _bank04 || _bankFloat == _bank08)) {
         _bankFloat = _bankFloat - 3; // decrement the current bank float by three if its an odd number
         _bankCount++; // increment the while loop variable
         _cycleState = 0; // reset the cycle state
@@ -706,20 +704,20 @@ void Matrix::blinkSingleWhiteUp(int maxCount, int onTime, int offTime)
 
 void Matrix::blinkSingleRedUp(int maxCount, int onTime, int offTime)
 {
-  _bankFloat = 8;
+  _bankFloat = _bank07;
   _onTime = onTime;
   _offTime = offTime;
   do {
     // change the range of the _bankFloat variable if it is out of bound to the starting bank number
-    if ( _bankFloat > 9 || _bankFloat < 2 ) {
-      _bankFloat = 8;
+    if ( _bankFloat > _bank08 || _bankFloat < _bank01 ) {
+      _bankFloat = _bank07;
     }
     // read the current time value and store it for comparison
     _currentMillis = millis();
     // Here we are checking to see if the ON OFF cycle has completed.  If it has we increment the variable we intend to digitalWrite(); to.  When we have completed that we reset the cycle variable to incomplete.
     if (_cycleState == 1) {
-      // test to see if the bank variable is an even or odd number that isn't 4 or 8
-      if  ((_bankCount % 2 != 0) && (_bankFloat == 3 || _bankFloat == 7)) {
+      // test to see if the bank variable is an even or odd number that isn't 4 or 8 (??)
+      if  ((_bankCount % 2 != 0) && (_bankFloat == _bank02 || _bankFloat == _bank06)) {
         _bankFloat = _bankFloat - 3; // decrement the current bank float by three if its an odd number
         _bankCount++; // increment the while loop variable
         _cycleState = 0; // reset the cycle state
@@ -753,20 +751,20 @@ void Matrix::blinkSingleRedUp(int maxCount, int onTime, int offTime)
 
 void Matrix::blinkSingleRedDown(int maxCount, int onTime, int offTime)
 {
-  _bankFloat = 3;
+  _bankFloat = _bank02;
   _onTime = onTime;
   _offTime = offTime;
   do {
     // change the range of the _bankFloat variable if it is out of bound to the starting bank number
-    if ( _bankFloat > 9 || _bankFloat < 2 ) {
-      _bankFloat = 3;
+    if ( _bankFloat > _bank08 || _bankFloat < _bank01 ) {
+      _bankFloat = _bank02;
     }
     // read the current time value and store it for comparison
     _currentMillis = millis();
     // Here we are checking to see if the ON OFF cycle has completed.  If it has we increment the variable we intend to digitalWrite(); to.  When we have completed that we reset the cycle variable to incomplete.
     if (_cycleState == 1) {
       // test to see if the bank variable is an even or odd number that isn't 4 or 8
-      if  ((_bankCount % 2 != 0) && (_bankFloat == 4 || _bankFloat == 8)) {
+      if  ((_bankCount % 2 != 0) && (_bankFloat == _bank03 || _bankFloat == _bank07)) {
         _bankFloat = _bankFloat + 3; // decrement the current bank float by three if its an odd number
         _bankCount++; // increment the while loop variable
         _cycleState = 0; // reset the cycle state
@@ -800,13 +798,13 @@ void Matrix::blinkSingleRedDown(int maxCount, int onTime, int offTime)
 
 void Matrix::blinkRed(int maxCount, int onTime, int offTime)
 {
-  _bankFloat = 8;
+  _bankFloat = _bank07;
   _onTime = onTime;
   _offTime = offTime;
   do {
     // change the range of the _bankFloat variable if it is out of bound to the starting bank number
-    if ( _bankFloat > 9 || _bankFloat < 2 ) {
-      _bankFloat = 8;
+    if ( _bankFloat > _bank08 || _bankFloat < _bank01 ) {
+      _bankFloat = _bank07;
     }
     // read the current time value and store it for comparison
     _currentMillis = millis();
@@ -844,13 +842,13 @@ void Matrix::blinkRed(int maxCount, int onTime, int offTime)
 
 void Matrix::blinkWhite(int maxCount, int onTime, int offTime)
 {
-  _bankFloat = 2;
+  _bankFloat = _bank01;
   _onTime = onTime;
   _offTime = offTime;
   do {
     // change the range of the _bankFloat variable if it is out of bound to the starting bank number
-    if ( _bankFloat > 9 || _bankFloat < 2 ) {
-      _bankFloat = 2;
+    if ( _bankFloat > _bank08 || _bankFloat < _bank01 ) {
+      _bankFloat = _bank01;
     }
     // read the current time value and store it for comparison
     _currentMillis = millis();
