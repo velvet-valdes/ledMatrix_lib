@@ -1,6 +1,6 @@
 /*
   LedMatrix.h - A Library I made to learn how to make libraries.
-    This drives a 2x4 LED matrix with animation functions
+  This drives a 2x4 LED matrix with animation functions
 */
 
 // ensure this library description is only included once
@@ -40,6 +40,16 @@ class Matrix {
     void blinkSingleRedDown(int maxCount, int onTime, int offTime);
     void blinkSingleWhiteUp(int maxCount, int onTime, int offTime);
     void blinkSingleRedUp(int maxCount, int onTime, int offTime);
+    void cycleBackwardAlpha(int maxCount, int onTime, int offTime);
+    void cycleBackwardBravo(int maxCount, int onTime, int offTime);
+    void cycleForwardAlpha(int maxCount, int onTime, int offTime);
+    void cycleForwardBravo(int maxCount, int onTime, int offTime);
+    void sweepUpRight(int maxCount, int onTime, int offTime);
+    void sweepDownRight(int maxCount, int onTime, int offTime);
+    void sweepUpLeft(int maxCount, int onTime, int offTime);
+    void sweepDownLeft(int maxCount, int onTime, int offTime);
+    void sweepRowUp(int maxCount, int onTime, int offTime);
+    void sweepRowDown(int maxCount, int onTime, int offTime);
 
     // private interface
   private:
@@ -49,6 +59,7 @@ class Matrix {
     int _ledState;
     int _cycleState;  // variable to determine if the ON OFF cycle is complete
     int _subState;    // counter for the components of state completion
+    int _animationCount;  // counter for the animation function completion
     int _bank01;
     int _bank02;
     int _bank03;

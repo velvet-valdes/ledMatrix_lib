@@ -882,3 +882,113 @@ void Matrix::blinkWhite(int maxCount, int onTime, int offTime)
   } while (_bankCount < (4 * maxCount));
   _bankCount = 0;
 }
+
+void Matrix::cycleBackwardAlpha(int maxCount, int onTime, int offTime) {
+  _animationCount = 0;
+  do {
+    // Animation begins from top left
+    downLeft(1, onTime, offTime);
+    upRight(1, onTime, offTime);
+    _animationCount++;
+  } while (_animationCount < maxCount);
+}
+
+
+void Matrix::cycleBackwardBravo(int maxCount, int onTime, int offTime) {
+  _animationCount = 0;
+  do {
+    // Animation begins from bottom right
+    upRight(1, onTime, offTime);
+    downLeft(1, onTime, offTime);
+    _animationCount++;
+  } while (_animationCount < maxCount);
+}
+
+
+void Matrix::cycleForwardAlpha(int maxCount, int onTime, int offTime) {
+  _animationCount = 0;
+  do {
+    // Animation begins from top right
+    downRight(1, onTime, offTime);
+    upLeft(1, onTime, offTime);
+    _animationCount++;
+  } while (_animationCount < maxCount);
+}
+
+
+void Matrix::cycleForwardBravo(int maxCount, int onTime, int offTime) {
+  _animationCount = 0;
+  do {
+    // Animation begins from bottom left
+    upLeft(1, onTime, offTime); // Start from bottom left
+    downRight(1, onTime, offTime);
+    _animationCount++;
+  } while (_animationCount < maxCount);
+}
+
+
+void Matrix::sweepUpRight(int maxCount, int onTime, int offTime) {
+  _animationCount = 0;
+  do {
+    // animation begins from bottom right
+    upRight(1, onTime, offTime);
+    downRight(1, onTime, offTime);
+    _animationCount++;
+  } while (_animationCount < maxCount);
+}
+
+
+void Matrix::sweepDownRight(int maxCount, int onTime, int offTime) {
+  _animationCount = 0;
+  do {
+    // animation begins from bottom right
+    downRight(1, onTime, offTime);
+    upRight(1, onTime, offTime);
+    _animationCount++;
+  } while (_animationCount < maxCount);
+}
+
+
+void Matrix::sweepUpLeft(int maxCount, int onTime, int offTime) {
+  _animationCount = 0;
+  do {
+    // animation begins from bottom right
+    upLeft(1, onTime, offTime);
+    downLeft(1, onTime, offTime);
+    _animationCount++;
+  } while (_animationCount < maxCount);
+}
+
+
+void Matrix::sweepDownLeft(int maxCount, int onTime, int offTime) {
+  _animationCount = 0;
+  do {
+    // animation begins from bottom right
+    downLeft(1, onTime, offTime);
+    upLeft(1, onTime, offTime);
+    _animationCount++;
+  } while (_animationCount < maxCount);
+}
+
+
+void Matrix::sweepRowUp(int maxCount, int onTime, int offTime) {
+  _animationCount = 0;
+  do {
+    // sweeping a row up
+    rowUp(1, onTime, offTime);
+    rowDown(1, onTime, offTime);
+    _animationCount++;
+  } while (_animationCount < maxCount);
+}
+
+
+void Matrix::sweepRowDown(int maxCount, int onTime, int offTime) {
+  _animationCount = 0;
+  do {
+    // sweeping a row up
+    rowDown(1, onTime, offTime);
+    rowUp(1, onTime, offTime);
+    _animationCount++;
+  } while (_animationCount < maxCount);
+}
+
