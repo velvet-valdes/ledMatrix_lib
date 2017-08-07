@@ -835,7 +835,7 @@ void Matrix::blinkRed(int maxCount, int onTime, int offTime)
     if (_subState >= 2) {
       _subState = 0; _cycleState = 1;
     }
-  } while (_bankCount < (4 * maxCount));
+  } while (_bankCount < (1 * maxCount));
   _bankCount = 0;
 }
 
@@ -879,9 +879,169 @@ void Matrix::blinkWhite(int maxCount, int onTime, int offTime)
     if (_subState >= 2) {
       _subState = 0; _cycleState = 1;
     }
-  } while (_bankCount < (4 * maxCount));
+  } while (_bankCount < (1 * maxCount));
   _bankCount = 0;
 }
+
+
+void Matrix::fade(int maxCount, int fadeStep)
+{
+  _bankFloat = _bank02;
+  _brightness = 0;
+  do {
+    // change the range of the _bankFloat variable if it is out of bound to the starting bank number
+    if ( _bankFloat > _bank08 || _bankFloat < _bank01 ) {
+      _bankFloat = _bank02;
+    }
+    // Here we are checking to see if the IN OUT cycle has completed.  If it has we increment the variable we intend to digitalWrite(); to.  When we have completed that we reset the cycle variable to incomplete.
+    if (_cycleState == 1) {
+      _bankCount++; // increment the while loop variable
+      _cycleState = 0; // reset the cycle state
+    }
+    if (_animationState == 0) {
+      for (_brightness = 0; _brightness < 255; _brightness += fadeStep) {
+        // this is where we fade in
+        analogWrite(_bankFloat, _brightness); // write the brightness value
+        // test for animation state switch this is where we want to trigger our state changes - when brightness hits min or max
+        Serial.println("up");
+        Serial.println(_brightness);
+      }
+      _subState++; // increment the variable that tells us when the cycle is complete
+      _animationState = 1;
+    }
+    else if (_animationState == 1) {
+      for (_brightness = 255; _brightness > 0; _brightness -= fadeStep) {
+        // this is where we fade out
+        analogWrite(_bankFloat, _brightness); // write the brightness value
+        // test for animation state switch this is where we want to trigger our state changes - when brightness hits min or max
+        Serial.println("down");
+        Serial.println(_brightness);
+      }
+      _subState++; // increment the variable that tells us when the cycle is complete
+      _animationState = 0;
+    }
+    // Here we are a variable to track if the cycle is complete.  Each subcomponent of the cycle increments the variable.  We are testing if the cycle is done with an integer.
+    if (_subState >= 2) {
+      _subState = 0; _cycleState = 1;
+    }
+  } while (_bankCount < (1 * maxCount));
+  _bankCount = 0;
+}
+
+
+void Matrix::fadeRed(int maxCount, int fadeStep)
+{
+  _bankFloat = _bank02;
+  _brightness = 0;
+  do {
+    // change the range of the _bankFloat variable if it is out of bound to the starting bank number
+    if ( _bankFloat > _bank08 || _bankFloat < _bank01 ) {
+      _bankFloat = _bank02;
+    }
+    // Here we are checking to see if the IN OUT cycle has completed.  If it has we increment the variable we intend to digitalWrite(); to.  When we have completed that we reset the cycle variable to incomplete.
+    if (_cycleState == 1) {
+      _bankCount++; // increment the while loop variable
+      _cycleState = 0; // reset the cycle state
+    }
+    if (_animationState == 0) {
+      for (_brightness = 0; _brightness < 255; _brightness += fadeStep) {
+        // this is where we fade in
+        analogWrite(_bankFloat, _brightness); // write the brightness value
+        analogWrite(_bankFloat + 1, _brightness); // write the brightness value
+        analogWrite(_bankFloat + 4, _brightness); // write the brightness value
+        analogWrite(_bankFloat + 5, _brightness); // write the brightness value
+        // test for animation state switch this is where we want to trigger our state changes - when brightness hits min or max
+        Serial.println("up");
+        Serial.println(_brightness);
+      }
+      _subState++; // increment the variable that tells us when the cycle is complete
+      _animationState = 1;
+    }
+    else if (_animationState == 1) {
+      for (_brightness = 255; _brightness > 0; _brightness -= fadeStep) {
+        // this is where we fade out
+        analogWrite(_bankFloat, _brightness); // write the brightness value
+        analogWrite(_bankFloat + 1, _brightness); // write the brightness value
+        analogWrite(_bankFloat + 4, _brightness); // write the brightness value
+        analogWrite(_bankFloat + 5, _brightness); // write the brightness value
+        // test for animation state switch this is where we want to trigger our state changes - when brightness hits min or max
+        Serial.println("down");
+        Serial.println(_brightness);
+      }
+      _subState++; // increment the variable that tells us when the cycle is complete
+      _animationState = 0;
+    }
+    // Here we are a variable to track if the cycle is complete.  Each subcomponent of the cycle increments the variable.  We are testing if the cycle is done with an integer.
+    if (_subState >= 2) {
+      _subState = 0; _cycleState = 1;
+    }
+  } while (_bankCount < (1 * maxCount));
+  _bankCount = 0;
+}
+
+void Matrix::fadeRandom(int maxCount, int fadeStep)
+{
+
+  _bankFloat = random(_bank01, _bank08);
+
+  if (_bankFloat == _bank01) {
+    _bankFloat = _bankFloat + 1;
+  }
+  else  if (_bankFloat == _bank04) {
+    _bankFloat = _bankFloat + 2;
+  }
+  else  if (_bankFloat == _bank05) {
+    _bankFloat = _bankFloat - 2;
+  }
+  else  if (_bankFloat == _bank08) {
+    _bankFloat = _bankFloat - 1;
+  }
+
+  _brightness = 0;
+
+  Serial.println("Bankfloat: ");
+  Serial.println(_bankFloat);
+
+  do {
+    // change the range of the _bankFloat variable if it is out of bound to the starting bank number
+    if ( _bankFloat > _bank08 || _bankFloat < _bank01 ) {
+      _bankFloat = _bank02;
+    }
+    // Here we are checking to see if the IN OUT cycle has completed.  If it has we increment the variable we intend to digitalWrite(); to.  When we have completed that we reset the cycle variable to incomplete.
+    if (_cycleState == 1) {
+      _bankCount++; // increment the while loop variable
+      _cycleState = 0; // reset the cycle state
+    }
+    if (_animationState == 0) {
+      for (_brightness = 0; _brightness < 255; _brightness += fadeStep) {
+        // this is where we fade in
+        analogWrite(_bankFloat, _brightness); // write the brightness value
+        // test for animation state switch this is where we want to trigger our state changes - when brightness hits min or max
+        Serial.println("up");
+        Serial.println(_brightness);
+      }
+      _subState++; // increment the variable that tells us when the cycle is complete
+      _animationState = 1;
+    }
+    else if (_animationState == 1) {
+      for (_brightness = 255; _brightness > 0; _brightness -= fadeStep) {
+        // this is where we fade out
+        analogWrite(_bankFloat, _brightness); // write the brightness value
+        // test for animation state switch this is where we want to trigger our state changes - when brightness hits min or max
+        Serial.println("down");
+        Serial.println(_brightness);
+      }
+      _subState++; // increment the variable that tells us when the cycle is complete
+      _animationState = 0;
+    }
+    // Here we are a variable to track if the cycle is complete.  Each subcomponent of the cycle increments the variable.  We are testing if the cycle is done with an integer.
+    if (_subState >= 2) {
+      _subState = 0; _cycleState = 1;
+    }
+  } while (_bankCount < (1 * maxCount));
+  _bankCount = 0;
+}
+
 
 void Matrix::cycleBackwardAlpha(int maxCount, int onTime, int offTime) {
   _animationCount = 0;
@@ -991,4 +1151,48 @@ void Matrix::sweepRowDown(int maxCount, int onTime, int offTime) {
     _animationCount++;
   } while (_animationCount < maxCount);
 }
+
+
+void Matrix::sweepWhiteUp(int maxCount, int onTime, int offTime) {
+  _animationCount = 0;
+  do {
+    // sweeping a row up
+    blinkSingleWhiteUp(1, onTime, offTime);
+    blinkSingleWhiteDown(1, onTime, offTime);
+    _animationCount++;
+  } while (_animationCount < maxCount);
+}
+
+
+void Matrix::sweepWhiteDown(int maxCount, int onTime, int offTime) {
+  _animationCount = 0;
+  do {
+    // sweeping a row up
+    blinkSingleWhiteDown(1, onTime, offTime);
+    blinkSingleWhiteUp(1, onTime, offTime);
+    _animationCount++;
+  } while (_animationCount < maxCount);
+}
+
+void Matrix::sweepRedUp(int maxCount, int onTime, int offTime) {
+  _animationCount = 0;
+  do {
+    // sweeping a row up
+    blinkSingleRedUp(1, onTime, offTime);
+    blinkSingleRedDown(1, onTime, offTime);
+    _animationCount++;
+  } while (_animationCount < maxCount);
+}
+
+
+void Matrix::sweepRedDown(int maxCount, int onTime, int offTime) {
+  _animationCount = 0;
+  do {
+    // sweeping a row up
+    blinkSingleRedDown(1, onTime, offTime);
+    blinkSingleRedUp(1, onTime, offTime);
+    _animationCount++;
+  } while (_animationCount < maxCount);
+}
+
 

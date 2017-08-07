@@ -50,6 +50,14 @@ class Matrix {
     void sweepDownLeft(int maxCount, int onTime, int offTime);
     void sweepRowUp(int maxCount, int onTime, int offTime);
     void sweepRowDown(int maxCount, int onTime, int offTime);
+    void sweepWhiteUp(int maxCount, int onTime, int offTime);
+    void sweepWhiteDown(int maxCount, int onTime, int offTime);
+    void sweepRedUp(int maxCount, int onTime, int offTime);
+    void sweepRedDown(int maxCount, int onTime, int offTime);
+    void fade(int maxCount, int fadeStep);
+    void fadeRed(int maxCount, int fadeStep); 
+    void fadeRandom(int maxCount, int fadeStep);
+
 
     // private interface
   private:
@@ -72,6 +80,9 @@ class Matrix {
     unsigned long _currentMillis;
     long _onTime;
     long _offTime;
+    int _fadeAmount;
+    int _brightness;
+    int _animationState;
 };
 
 #endif
