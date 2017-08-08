@@ -884,162 +884,77 @@ void Matrix::blinkWhite(int maxCount, int onTime, int offTime)
 }
 
 
-void Matrix::fade(int maxCount, int fadeStep)
+void Matrix::fade(int maxCount, int duration, int fadeStep)
 {
   _bankFloat = _bank02;
-  _brightness = 0;
-  do {
-    // change the range of the _bankFloat variable if it is out of bound to the starting bank number
-    if ( _bankFloat > _bank08 || _bankFloat < _bank01 ) {
-      _bankFloat = _bank02;
+  for (int i = 0; i < maxCount; i++) {
+    for (_brightness = 0; _brightness < 255; _brightness += fadeStep) {
+      // this is where we fade in
+      analogWrite(_bankFloat, _brightness); // write the brightness value
+      delay(duration);
     }
-    // Here we are checking to see if the IN OUT cycle has completed.  If it has we increment the variable we intend to digitalWrite(); to.  When we have completed that we reset the cycle variable to incomplete.
-    if (_cycleState == 1) {
-      _bankCount++; // increment the while loop variable
-      _cycleState = 0; // reset the cycle state
+    for (_brightness = 255; _brightness >= 0; _brightness -= fadeStep) {
+      // this is where we fade out
+      analogWrite(_bankFloat, _brightness); // write the brightness value
+      delay(duration);
     }
-    if (_animationState == 0) {
-      for (_brightness = 0; _brightness < 255; _brightness += fadeStep) {
-        // this is where we fade in
-        analogWrite(_bankFloat, _brightness); // write the brightness value
-        // test for animation state switch this is where we want to trigger our state changes - when brightness hits min or max
-        Serial.println("up");
-        Serial.println(_brightness);
-      }
-      _subState++; // increment the variable that tells us when the cycle is complete
-      _animationState = 1;
-    }
-    else if (_animationState == 1) {
-      for (_brightness = 255; _brightness > 0; _brightness -= fadeStep) {
-        // this is where we fade out
-        analogWrite(_bankFloat, _brightness); // write the brightness value
-        // test for animation state switch this is where we want to trigger our state changes - when brightness hits min or max
-        Serial.println("down");
-        Serial.println(_brightness);
-      }
-      _subState++; // increment the variable that tells us when the cycle is complete
-      _animationState = 0;
-    }
-    // Here we are a variable to track if the cycle is complete.  Each subcomponent of the cycle increments the variable.  We are testing if the cycle is done with an integer.
-    if (_subState >= 2) {
-      _subState = 0; _cycleState = 1;
-    }
-  } while (_bankCount < (1 * maxCount));
-  _bankCount = 0;
+  }
 }
 
 
-void Matrix::fadeRed(int maxCount, int fadeStep)
+void Matrix::fadeRed(int maxCount, int duration, int fadeStep)
 {
   _bankFloat = _bank02;
-  _brightness = 0;
-  do {
-    // change the range of the _bankFloat variable if it is out of bound to the starting bank number
-    if ( _bankFloat > _bank08 || _bankFloat < _bank01 ) {
-      _bankFloat = _bank02;
+  for (int i = 0; i < maxCount; i++) {
+    for (_brightness = 0; _brightness < 255; _brightness += fadeStep) {
+      // this is where we fade in
+      analogWrite(_bankFloat, _brightness); // write the brightness value
+      analogWrite(_bankFloat + 1, _brightness); // write the brightness value
+      analogWrite(_bankFloat + 4, _brightness); // write the brightness value
+      analogWrite(_bankFloat + 5, _brightness); // write the brightness value
+      delay(duration);
     }
-    // Here we are checking to see if the IN OUT cycle has completed.  If it has we increment the variable we intend to digitalWrite(); to.  When we have completed that we reset the cycle variable to incomplete.
-    if (_cycleState == 1) {
-      _bankCount++; // increment the while loop variable
-      _cycleState = 0; // reset the cycle state
+    for (_brightness = 255; _brightness >= 0; _brightness -= fadeStep) {
+      // this is where we fade out
+      analogWrite(_bankFloat, _brightness); // write the brightness value
+      analogWrite(_bankFloat + 1, _brightness); // write the brightness value
+      analogWrite(_bankFloat + 4, _brightness); // write the brightness value
+      analogWrite(_bankFloat + 5, _brightness); // write the brightness value
+      delay(duration);
     }
-    if (_animationState == 0) {
-      for (_brightness = 0; _brightness < 255; _brightness += fadeStep) {
-        // this is where we fade in
-        analogWrite(_bankFloat, _brightness); // write the brightness value
-        analogWrite(_bankFloat + 1, _brightness); // write the brightness value
-        analogWrite(_bankFloat + 4, _brightness); // write the brightness value
-        analogWrite(_bankFloat + 5, _brightness); // write the brightness value
-        // test for animation state switch this is where we want to trigger our state changes - when brightness hits min or max
-        Serial.println("up");
-        Serial.println(_brightness);
-      }
-      _subState++; // increment the variable that tells us when the cycle is complete
-      _animationState = 1;
-    }
-    else if (_animationState == 1) {
-      for (_brightness = 255; _brightness > 0; _brightness -= fadeStep) {
-        // this is where we fade out
-        analogWrite(_bankFloat, _brightness); // write the brightness value
-        analogWrite(_bankFloat + 1, _brightness); // write the brightness value
-        analogWrite(_bankFloat + 4, _brightness); // write the brightness value
-        analogWrite(_bankFloat + 5, _brightness); // write the brightness value
-        // test for animation state switch this is where we want to trigger our state changes - when brightness hits min or max
-        Serial.println("down");
-        Serial.println(_brightness);
-      }
-      _subState++; // increment the variable that tells us when the cycle is complete
-      _animationState = 0;
-    }
-    // Here we are a variable to track if the cycle is complete.  Each subcomponent of the cycle increments the variable.  We are testing if the cycle is done with an integer.
-    if (_subState >= 2) {
-      _subState = 0; _cycleState = 1;
-    }
-  } while (_bankCount < (1 * maxCount));
-  _bankCount = 0;
+  }
 }
 
-void Matrix::fadeRandom(int maxCount, int fadeStep)
+
+void Matrix::fadeRandom(int maxCount, int duration, int fadeStep)
 {
+  for (int i = 0; i < maxCount; i++) {
+    //using some tests to make sure it ends up on a red LED bank which are the PWM banks that can fade.
+    _bankFloat = random(_bank01, _bank08);
+    if (_bankFloat == _bank01) {
+      _bankFloat = _bankFloat + 1;
+    }
+    else  if (_bankFloat == _bank04) {
+      _bankFloat = _bankFloat + 2;
+    }
+    else  if (_bankFloat == _bank05) {
+      _bankFloat = _bankFloat - 2;
+    }
+    else  if (_bankFloat == _bank08) {
+      _bankFloat = _bankFloat - 1;
+    }
+    for (_brightness = 0; _brightness < 255; _brightness += fadeStep) {
+      // this is where we fade in
+      analogWrite(_bankFloat, _brightness); // write the brightness value
+      delay(duration);
+    }
 
-  _bankFloat = random(_bank01, _bank08);
-
-  if (_bankFloat == _bank01) {
-    _bankFloat = _bankFloat + 1;
+    for (_brightness = 255; _brightness >= 0; _brightness -= fadeStep) {
+      // this is where we fade out
+      analogWrite(_bankFloat, _brightness); // write the brightness value
+      delay(duration);
+    }
   }
-  else  if (_bankFloat == _bank04) {
-    _bankFloat = _bankFloat + 2;
-  }
-  else  if (_bankFloat == _bank05) {
-    _bankFloat = _bankFloat - 2;
-  }
-  else  if (_bankFloat == _bank08) {
-    _bankFloat = _bankFloat - 1;
-  }
-
-  _brightness = 0;
-
-  Serial.println("Bankfloat: ");
-  Serial.println(_bankFloat);
-
-  do {
-    // change the range of the _bankFloat variable if it is out of bound to the starting bank number
-    if ( _bankFloat > _bank08 || _bankFloat < _bank01 ) {
-      _bankFloat = _bank02;
-    }
-    // Here we are checking to see if the IN OUT cycle has completed.  If it has we increment the variable we intend to digitalWrite(); to.  When we have completed that we reset the cycle variable to incomplete.
-    if (_cycleState == 1) {
-      _bankCount++; // increment the while loop variable
-      _cycleState = 0; // reset the cycle state
-    }
-    if (_animationState == 0) {
-      for (_brightness = 0; _brightness < 255; _brightness += fadeStep) {
-        // this is where we fade in
-        analogWrite(_bankFloat, _brightness); // write the brightness value
-        // test for animation state switch this is where we want to trigger our state changes - when brightness hits min or max
-        Serial.println("up");
-        Serial.println(_brightness);
-      }
-      _subState++; // increment the variable that tells us when the cycle is complete
-      _animationState = 1;
-    }
-    else if (_animationState == 1) {
-      for (_brightness = 255; _brightness > 0; _brightness -= fadeStep) {
-        // this is where we fade out
-        analogWrite(_bankFloat, _brightness); // write the brightness value
-        // test for animation state switch this is where we want to trigger our state changes - when brightness hits min or max
-        Serial.println("down");
-        Serial.println(_brightness);
-      }
-      _subState++; // increment the variable that tells us when the cycle is complete
-      _animationState = 0;
-    }
-    // Here we are a variable to track if the cycle is complete.  Each subcomponent of the cycle increments the variable.  We are testing if the cycle is done with an integer.
-    if (_subState >= 2) {
-      _subState = 0; _cycleState = 1;
-    }
-  } while (_bankCount < (1 * maxCount));
-  _bankCount = 0;
 }
 
 

@@ -54,9 +54,9 @@ class Matrix {
     void sweepWhiteDown(int maxCount, int onTime, int offTime);
     void sweepRedUp(int maxCount, int onTime, int offTime);
     void sweepRedDown(int maxCount, int onTime, int offTime);
-    void fade(int maxCount, int fadeStep);
-    void fadeRed(int maxCount, int fadeStep); 
-    void fadeRandom(int maxCount, int fadeStep);
+    void fade(int maxCount, int duration, int fadeStep);
+    void fadeRed(int maxCount, int duration, int fadeStep); 
+    void fadeRandom(int maxCount, int duration, int fadeStep);
 
 
     // private interface
